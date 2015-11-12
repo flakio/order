@@ -14,6 +14,8 @@
 
 		var results = yield connection.query ("SELECT 1");
 		
+		connection.release();
+		
 		this.body = results;
 	}
 	
