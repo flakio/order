@@ -10,12 +10,10 @@
 		if ('GET' != this.method) return yield next;
 		
 		//var connection = mysql.createConnection( process.env.CONNECTION_STRING );
-		var connection = wrapper(mysql.createConnection('mysql://root:my-secret-pw@192.168.99.100/mysql?debug=true&timezone=-0700'));
+		var connection = wrapper(mysql.createConnection('mysql://root:my-secret-pw@192.168.99.100/flakio?debug=true&timezone=-0700'));
 
-		var results = yield connection.query ("SELECT 1");
-		
-		connection.release();
-		
+		var results = yield connection.query ("SELECT * FROM `Order`");		
+	
 		this.body = results;
 	}
 	

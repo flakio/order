@@ -14,6 +14,9 @@
 	app.use(route.post('/order/', order.create));
 	app.use(route.get('/order/:id', order.getById));
 
+	//TODO: move this to a seperate setup command (it's here for simplicity right now)
+	require('./install').install();
+	
 	app.use(compress());
 	
 	if (!module.parent) {
