@@ -2,6 +2,7 @@
 Payment processing service
 
 API
+
 | URL | METHOD | DESCRIPTION |
 | --- | --- | --- |
 | /order | POST | Place a new order (checkout) |
