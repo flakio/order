@@ -6,18 +6,18 @@
 	var process = require('process');
 	var wrapper = require('co-mysql')
 	
-	module.exports.list = function * list(next) {
+	module.exports.list = function * (next) {
 		if ('GET' != this.method) return yield next;
 		
 		//var connection = mysql.createConnection( process.env.CONNECTION_STRING );
-		var connection = wrapper(mysql.createConnection(process.env.MYSQL_ENDPOINT + '/flakio?debug=true&timezone=-0700'));
+		var connection = wrapper(mysql.createConnection(process.env.MYSQL_ENDPOINT + '/flakio?debug=true'));
 
 		var results = yield connection.query ("SELECT * FROM `Order`");		
 	
 		this.body = results;
 	}
 	
-	module.exports.create = function * create(next) {
+	module.exports.create = function * crate(next) {
 		
 		//Parse posted data
 		var data = yield parse(this, {
@@ -29,7 +29,7 @@
 		//Add a new order to MariaDB
 	}
 	
-	module.exports.getById = function * getById(id, next) {
+	module.exports.getById = function * (id, next) {
 		//if (order.length === 0) {
 		//	this.throw(404, {error:'order with id = ' + id + ' was not found'});
 		//}

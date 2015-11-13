@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS `Order` (
+	`id` VARCHAR(45) NOT NULL ,
+	`name` VARCHAR(255) NOT NULL ,
+	`total` DECIMAL(13,4) NULL ,
+	PRIMARY KEY (`id`)
+)
