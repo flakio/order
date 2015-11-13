@@ -1,6 +1,9 @@
 CREATE TABLE IF NOT EXISTS `OrderItem` (
-	`id` VARCHAR(45) NOT NULL ,
-	`name` VARCHAR(255) NOT NULL ,
-	`total` DECIMAL(13,4) NULL ,
-	PRIMARY KEY (`id`)
+	`orderId` VARCHAR(45) NOT NULL ,
+	`productId` VARCHAR(45) NOT NULL ,
+	`productName` VARCHAR(45) NOT NULL,
+	`price` DECIMAL(13,4) NULL,
+	`quantity` INT NOT NULL,
+	`total` DECIMAL(13,4) NULL,
+	PRIMARY KEY (`orderId`)
 )

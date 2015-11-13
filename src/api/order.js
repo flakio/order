@@ -4,7 +4,7 @@
 	var parse = require('co-body');
 	var mysql = require('mysql');
 	var process = require('process');
-	var wrapper = require('co-mysql')
+	var wrapper = require('co-mysql');
 	
 	module.exports.list = function * (next) {
 		if ('GET' != this.method) return yield next;
@@ -17,7 +17,7 @@
 		this.body = results;
 	}
 	
-	module.exports.create = function * crate(next) {
+	module.exports.create = function * (next) {
 		
 		//Parse posted data
 		var data = yield parse(this, {
