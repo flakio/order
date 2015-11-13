@@ -20,7 +20,7 @@
 	app.use(compress());
 	
 	if (!module.parent) {
-		app.listen(9001);
-		console.log('listening on port 9001');
+		app.listen(9000);
+		console.log('listening on port 9000');
 	}
 })();

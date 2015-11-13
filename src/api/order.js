@@ -10,7 +10,7 @@
 		if ('GET' != this.method) return yield next;
 		
 		//var connection = mysql.createConnection( process.env.CONNECTION_STRING );
-		var connection = wrapper(mysql.createConnection('mysql://root:my-secret-pw@192.168.99.100/flakio?debug=true&timezone=-0700'));
+		var connection = wrapper(mysql.createConnection(process.env.MYSQL_ENDPOINT + '/flakio?debug=true&timezone=-0700'));
 
 		var results = yield connection.query ("SELECT * FROM `Order`");		
 	
@@ -24,15 +24,15 @@
 			limit: '1kb'
 		});
 		
-		//Process the order
+		//This is where we would call payment process or hold cc
 		
 		//Add a new order to MariaDB
 	}
 	
 	module.exports.getById = function * getById(id, next) {
-		if (book.length === 0) {
-			this.throw(404, {error:'order with id = ' + id + ' was not found'});
-		}
+		//if (order.length === 0) {
+		//	this.throw(404, {error:'order with id = ' + id + ' was not found'});
+		//}
 		this.body = 'Done!';
 	}
 })();
