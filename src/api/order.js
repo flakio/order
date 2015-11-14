@@ -31,10 +31,11 @@
 		
 		// Add a new order to MariaDB
 		var connection = wrapper(mysql.createPool(settings.mysqlConnectionString() + '/flakio?debug=true'));
-		yield connection.query("INSERT INTO `Order` (id, customerId, status, total, orderDate, shippingAddress) \
-		 VALUES (?, ?, ?, ?, NOW(), ?)",
+		yield connection.query("INSERT INTO `Order` (id, customerId, email, status, total, orderDate, shippingAddress) \
+		 VALUES (?, ?, ?, ?, ?, NOW(), ?)",
 		 [uuid.v1(),
 		 data.customerId,
+		 data.email,
 		 data.status,
 		 data.total,
 		 data.shippingAddress]);
