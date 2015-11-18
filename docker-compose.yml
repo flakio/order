@@ -1,0 +1,13 @@
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=my-secret-pw
+  net: orderservice
+
+orderservice:
+  build: .
+  ports:
+    - "9000:9000"
+  environment:
+    - MYSQL_ENDPOINT=mysql://root:my-secret-pw@orderservice_mysql_1
+  net: orderservice
