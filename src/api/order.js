@@ -12,7 +12,7 @@
 		* list()
 		* retrieve a list of orders
 		*/
-		list : function * (next) {
+		list : function * () {
 
 			mysql.configure(settings.mysqlConnectionString() + '/flakio?debug=true');
 	
@@ -25,7 +25,7 @@
 		* create()
 		* create a new order from data posted
 		*/
-		create : function * (next) {
+		create : function * () {
 			
 			//Parse posted data
 			var data = yield parse(this, {
@@ -47,6 +47,7 @@
 			data.total,
 			data.shippingAddress]);
 			
+			// loop across orders
 			this.body = '';
 			
 			// TODO: Send email notification to notify service
@@ -56,7 +57,7 @@
 		* getById(id)
 		* retrieve order details using the order id passed
 		*/
-		getById : function * (id, next) {
+		getById : function * (id) {
 			
 			mysql.configure(settings.mysqlConnectionString() + '/flakio?debug=true');
 	
