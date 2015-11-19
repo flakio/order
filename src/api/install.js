@@ -2,7 +2,7 @@
 	'use strict';
 	
 	var mysql = require('mysql2-bluebird')();
-	var settings = require('../settings');
+	var settings = require('settings');
 	var thunkify = require('thunkify');
 	var fs = require('fs');
 	var read = thunkify(fs.readFile);
