@@ -47,7 +47,8 @@
 			data.total,
 			data.shippingAddress]);
 			
-			// loop across orders
+			// TODO: Insert order items
+			
 			this.body = '';
 			
 			// TODO: Send email notification to notify service
