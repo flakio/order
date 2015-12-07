@@ -1,0 +1,26 @@
+{
+  "id": "orderservice",
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "flakio/orderservice:5",
+      "privileged": false,
+      "network": "BRIDGE",
+      "portMappings": [
+        {
+          "containerPort": 9000,
+          "hostPort": 9000,
+          "protocol": "tcp"
+        }
+      ],
+      "parameters": []
+    }
+  },
+  "instances": 2,
+  "cpus": 0.1,
+  "mem": 128,
+  "env": {
+    "MYSQL_ENDPOINT": "mysql://root:my-secret-pw@orderdb.marathon.mesos"
+  },
+  "constraints": [["hostname", "UNIQUE"]]
+}
