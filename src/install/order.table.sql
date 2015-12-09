@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS `Order` (
 	`shipDate` DATE NULL,
 	`processor` VARCHAR(45) NULL,
 	`txnId` VARCHAR(45) NULL,
-	`shippingAddress` VARCHAR(200) NULL,
+	`shippingAddress` JSON NULL,
 	PRIMARY KEY (`id`)
 )

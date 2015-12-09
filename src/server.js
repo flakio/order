@@ -4,16 +4,18 @@ var order = require('./api/order');
 var install = require('./api/install');
 var compress = require('koa-compress');
 var logger = require('koa-logger');
-var route = require('koa-route');
+var route = require('koa-router')();
 var koa = require('koa');
 var app = module.exports = koa();
 
 app.use(logger());
 
-app.use(route.get('/order/', order.list));
-app.use(route.post('/order/', order.create));
-app.use(route.get('/order/:id', order.getById));
-app.use(route.get('/install/', install.install));
+route.get('/order/', order.list);
+route.post('/order/', order.create);
+route.get('/order/:id', order.getById);
+route.get('/install/', install.install);
+
+app.use(route.routes());
 
 app.use(compress());
 
