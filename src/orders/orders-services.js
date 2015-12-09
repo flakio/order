@@ -66,8 +66,6 @@ OrderService.prototype = {
 
     yield selects;
 
-    console.log(orderDto)
-
     if (!orderDto){
       return null;
     }
@@ -96,7 +94,7 @@ OrderService.prototype = {
       [orderId,
         data.customerId,
         data.email,
-        data.status,
+        0,
         data.total,
         JSON.stringify(data.shippingAddress)]);
 
