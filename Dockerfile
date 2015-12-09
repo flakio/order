@@ -6,7 +6,7 @@ WORKDIR /app
 
 CMD ["node", "./server.js"]
 
-ENV NODE_ENV production
+ENV NODE_ENV=production NODE_PATH=/app
 
 COPY ./src ./
 

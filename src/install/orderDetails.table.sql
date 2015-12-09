@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `OrderItem` (
+CREATE TABLE IF NOT EXISTS `OrderDetail` (
 	`orderId` VARCHAR(45) NOT NULL ,
 	`productId` VARCHAR(45) NOT NULL ,
 	`productName` VARCHAR(45) NOT NULL,
