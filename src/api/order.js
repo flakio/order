@@ -2,11 +2,20 @@
 
 var parse = require('co-body');
 var mysql = require('mysql2-bluebird')();
-var settings = require('settings');
+var settings = require('../settings');
 var uuid = require('uuid');
 
-module.exports = {
+var OrderShort = function(id, email, status, total, orderDate, shippingAddress, lineItems){
+	this.id = id;
+	this.email = email;
+	this.status = status;
+	this.total = total;
+	this.orderDate = orderDate;
+	this.shippingAddress = shippingAddress;
+	this.lineItems = lineItems;
+};
 
+module.exports = {
 	/*
 	* list()
 	* retrieve a list of orders
@@ -14,17 +23,20 @@ module.exports = {
 	list : function * () {
 		
 		try {
-
 			mysql.configure(settings.mysqlConnectionString() + '/flakio?debug=true');
 	
 			var results = yield mysql.query (
-				"SELECT ord.id, ord.email, ord.status, ord.total. ord.orderDate, ( \
+				"SELECT ord.id, ord.email, ord.status, ord.total, ord.orderDate, ord.shippingAddress, ( \
 				SELECT COUNT(*) FROM `OrderDetail` detail WHERE detail.orderId = ord.id \
 				) AS \"lineItems\" \
 				FROM `Order` ord");
-		
+
+			var list = results[0].map(function(dto){
+				return new OrderShort(dto.id, dto.email, dto.status, dto.total, dto.orderDate,
+					JSON.parse(dto.shippingAddress), dto.lineItems);
+			});
 			this.status = 200;
-			this.body = results[0];
+			this.body = list;
 
 		}
 		catch(err) {
@@ -40,10 +52,10 @@ module.exports = {
 	create : function * () {
 		
 		//Parse posted data
-		var data = yield parse(this, {
+		var data = JSON.parse(yield parse(this, {
 			limit: '1kb'
-		});
-		
+		}));
+
 		// Process payment ()
 		// In a real system this would involve multiple steps with some consistency checks in place
 		// We may even simply capture the payment and charge it when shipping
@@ -58,7 +70,7 @@ module.exports = {
 		data.email,
 		data.status,
 		data.total,
-		data.shippingAddress]);
+			JSON.stringify(data.shippingAddress)]);
 		
 		// TODO: Insert order items
 		
