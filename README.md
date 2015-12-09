@@ -23,3 +23,9 @@ Sample document to post to the /create api
     "shippingAddress":"2513 14th PL NE\nMill Creek WA 98012"
 }
 ```
+
+Deploy to mesos
+```
+curl -s -XPOST localhost:8080/v2/apps -d@marathon-order.json -H "Content-Type: application/json"
+curl -s -XPOST localhost:8080/v2/apps -d@marathon-orderdb.json -H "Content-Type: application/json"
+```
