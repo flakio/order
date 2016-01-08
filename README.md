@@ -16,11 +16,23 @@ Use docker-compose to run the service `docker-compose --project-name orderservic
 Sample document to post to the /create api
 ```json
 {
-    "customerId":"bmscholl",
-    "email": "trent@krillan.com",
-    "status":0,
+    "customerId": "asdf",
     "total": 22.40,
-    "shippingAddress":"2513 14th PL NE\nMill Creek WA 98012"
+    "orderDate": "01/01/2016",
+    "shippingAddress": {
+        "line1": "2020 Industrial Blvd",
+        "city": "Mill Creek",
+        "state": "WA",
+        "zip": "98012"
+    },
+    "items": [
+        {
+            "productId": "1",
+            "productName": "Hello",
+            "price": 20.12,
+            "quantity": 2
+        }
+    ]
 }
 ```
 

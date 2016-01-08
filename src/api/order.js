@@ -1,59 +1,85 @@
 'use strict';
 
 var parse = require('co-body');
+var mysql = require('mysql2-bluebird')();
+var settings = require('../settings');
+var thunkify = require('thunkify');
+var fs = require('fs');
+var read = thunkify(fs.readFile);
 
-var ordersService = new (require('../orders/orders-services'))();
+var orderData = new (require('../db/order-data'))();
 
 module.exports = {
 	/*
 	* list()
 	* retrieve a list of orders
 	*/
-	list : function * () {
-		try {
-      this.body = yield ordersService.list();
-			this.status = 200;
-		}
-		catch(err) {
-			this.status = 500;
-			this.body = { error: err };
-		}
-	},
+    list: function* () {
+        try {
+            this.body = yield orderData.list();
+            this.status = 200;
+        }
+        catch (err) {
+            this.status = 500;
+            this.body = { error: err };
+        }
+    },
 	
 	/*
 	* create()
 	* create a new order from data posted
 	*/
-	create : function * () {
+    create: function* () {
 
-    try{
-      //Parse posted data
-      var data = JSON.parse(yield parse(this, {
-        limit: '1kb'
-      }));
+        try {
+            //Parse posted data
+            var data = yield parse.json(this, {
+                limit: '1kb'
+            });
 
-      yield ordersService.create(data);
-      this.status = 200;
-    }catch (err){
-      this.status = 500;
-      this.body = { error: err };
-    }
-	},
+            yield orderData.create(data);
+            
+            // TODO: Send email notification to notify service
+            
+            this.status = 200;
+        } catch (err) {
+            this.status = 500;
+            this.body = { error: err };
+        }
+    },
 	
 	/*
 	* getById(id)
 	* retrieve order details using the order id passed
 	*/
-	getById : function * () {
+    getById: function* () {
 
-    try {
+        try {
 
-      this.body = yield ordersService.getById(this.params.id);
-      this.status = 200;
+            this.body = yield orderData.getById(this.params.id);
+            this.status = 200;
+        }
+        catch (err) {
+            this.status = 500;
+            this.body = { error: err };
+        }
+    },
+
+    /*
+	* install()
+	* deploy database schema and sample data
+	*/
+    install: function* () {
+
+        try {
+            yield orderData.install();
+
+            this.status = 200;
+            this.body = "Fantastic!  The database install completed and is ready to go.";
+        }
+        catch (err) {
+            this.status = 500;
+            this.body = { error: err };
+        }
     }
-    catch(err) {
-      this.status = 500;
-      this.body = { error: err };
-    }
-	}
 }
