@@ -1,0 +1,61 @@
+{
+    "id": "order",
+    "apps": [
+        {
+            "id": "orderservice",
+            "container": {
+                "type": "DOCKER",
+                "docker": {
+                    "image": "flakio/orderservice:6",
+                    "privileged": false,
+                    "network": "BRIDGE",
+                    "portMappings": [
+                        {
+                            "containerPort": 9000,
+                            "hostPort": 9000,
+                            "protocol": "tcp"
+                        }
+                    ],
+                    "parameters": []
+                }
+            },
+            "instances": 2,
+            "cpus": 0.1,
+            "mem": 128,
+            "env": {
+                "MYSQL_ENDPOINT": "mysql://root:my-secret-pw@orderdb-order.marathon.mesos"
+            },
+            "constraints": [
+                [
+                    "hostname",
+                    "UNIQUE"
+                ]
+            ]
+        },
+        {
+            "id": "orderdb",
+            "container": {
+                "type": "DOCKER",
+                "docker": {
+                    "image": "mysql",
+                    "privileged": false,
+                    "network": "BRIDGE",
+                    "portMappings": [
+                        {
+                            "containerPort": 3306,
+                            "hostPort": 3306,
+                            "protocol": "tcp"
+                        }
+                    ],
+                    "parameters": []
+                }
+            },
+            "instances": 1,
+            "cpus": 0.2,
+            "mem": 256,
+            "env": {
+                "MYSQL_ROOT_PASSWORD": "my-secret-pw"
+            }
+        }
+    ]
+}
