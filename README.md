@@ -26,6 +26,5 @@ Sample document to post to the /create api
 
 Deploy to mesos
 ```
-curl -s -XPOST localhost:8080/v2/apps -d@marathon-order.json -H "Content-Type: application/json"
-curl -s -XPOST localhost:8080/v2/apps -d@marathon-orderdb.json -H "Content-Type: application/json"
+curl -s -XPOST localhost:8080/v2/groups -d@marathon.json -H "Content-Type: application/json"
 ```
