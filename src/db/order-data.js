@@ -1,4 +1,4 @@
-var database = new (require('../db/database'))();
+var database = require('../db/database');
 var uuid = require('uuid');
 
 //TEMP
@@ -84,17 +84,12 @@ module.exports = {
     },
 
     create: function* (data) {
-        // Process payment ()
-        // In a real system this would involve multiple steps with some consistency checks in place
-        // We may even simply capture the payment and charge it when shipping
-
-        // Add a new order to mysql
 
         var orderId = uuid.v1();
 
         yield database.query("INSERT INTO `Order` \
-		(id, customerId, email, status, total, orderDate, shippingAddress) \
-		VALUES (?, ?, ?, ?, ?, NOW(), ?)",
+		  (id, customerId, email, status, total, orderDate, shippingAddress) \
+		  VALUES (?, ?, ?, ?, ?, NOW(), ?)",
             [orderId,
                 data.customerId,
                 data.email,
@@ -109,12 +104,12 @@ module.exports = {
         var inserts = [];
         for (var i = 0; i < data.items.length; i++) {
             var item = data.items[i];
-            inserts.push(database.query('INSERT INTO `OrderDetail`\
-        (`orderId`,`productId`,`productName`,`price`,`quantity`,`total`) VALUES (?, ?, ?, ?, ?, ?)',
+            inserts.push(database.query(
+                'INSERT INTO `OrderDetail`(`orderId`,`productId`,`productName`,`price`,`quantity`,`total`) VALUES (?, ?, ?, ?, ?, ?)',
                 [orderId, item.productId, item.productName, item.price, item.quantity, item.price * item.quantity]));
         }
 
-        yield inserts;
+        yield Promise.all(inserts);
     },
 
     install: function* () {

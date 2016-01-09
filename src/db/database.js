@@ -3,15 +3,9 @@ var settings = require('../settings');
 
 mysql.configure(settings.mysqlConnectionString() + '/flakio?debug=true');
 
-var Database = function(){
-
-}
-
-Database.prototype = {
+module.exports = {
   query: function *(query, params){
 
     return  yield mysql.query(query, params);
   }
 }
-
-module.exports = Database;
