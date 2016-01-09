@@ -7,13 +7,11 @@ var thunkify = require('thunkify');
 var fs = require('fs');
 var read = thunkify(fs.readFile);
 
-var orderData = new (require('../db/order-data'))();
+var orderData = require('../db/order-data');
 
 module.exports = {
-	/*
-	* list()
-	* retrieve a list of orders
-	*/
+
+	//retrieve a list of orders
     list: function* () {
         try {
             this.body = yield orderData.list();
@@ -24,11 +22,8 @@ module.exports = {
             this.body = { error: err };
         }
     },
-	
-	/*
-	* create()
-	* create a new order from data posted
-	*/
+
+	//create a new order from data posted
     create: function* () {
 
         try {
@@ -48,10 +43,7 @@ module.exports = {
         }
     },
 	
-	/*
-	* getById(id)
-	* retrieve order details using the order id passed
-	*/
+	//retrieve order details using the order id passed
     getById: function* () {
 
         try {
@@ -65,10 +57,7 @@ module.exports = {
         }
     },
 
-    /*
-	* install()
-	* deploy database schema and sample data
-	*/
+	//deploy database schema and sample data
     install: function* () {
 
         try {

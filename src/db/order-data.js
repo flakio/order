@@ -35,16 +35,13 @@ var OrderItem = function (productId, productName, price, quantity) {
     this.quantity = quantity;
 }
 
-function OrderData() {
-}
-
-OrderData.prototype = {
+module.exports = {
     list: function* () {
         var results = yield database.query(
             "SELECT ord.id, ord.email, ord.status, ord.total, ord.orderDate, ord.shippingAddress, ( \
-      SELECT COUNT(*) FROM `OrderDetail` detail WHERE detail.orderId = ord.id \
-      ) AS \"lineItems\" \
-      FROM `Order` ord");
+            SELECT COUNT(*) FROM `OrderDetail` detail WHERE detail.orderId = ord.id \
+            ) AS \"lineItems\" \
+            FROM `Order` ord");
 
         var list = results[0].map(function (model) {
             return new OrderSummary(model.id, model.email, model.status, model.total, model.orderDate,
@@ -119,7 +116,7 @@ OrderData.prototype = {
 
         yield inserts;
     },
-    
+
     install: function* () {
         
         // Create the Flak.io Order service database
@@ -137,5 +134,3 @@ OrderData.prototype = {
         results = yield mysql.query(statement);
     }
 }
-
-module.exports = OrderData;
