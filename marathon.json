@@ -6,7 +6,7 @@
             "container": {
                 "type": "DOCKER",
                 "docker": {
-                    "image": "flakio/orderservice:7",
+                    "image": "flakio/orderservice:9",
                     "privileged": false,
                     "network": "BRIDGE",
                     "portMappings": [
