@@ -1,0 +1,20 @@
+machine:
+  services:
+    - docker
+  node:
+    version: 5.4.0
+
+general:
+  build_dir: src
+  
+dependencies:
+  override:
+    - docker info
+    - cd .. && docker build -t flakio/orderservice:$CIRCLE_BUILD_NUM .
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push flakio/orderservice:$CIRCLE_BUILD_NUM
