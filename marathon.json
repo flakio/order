@@ -30,7 +30,10 @@
                     "hostname",
                     "UNIQUE"
                 ]
-            ]
+            ],
+            "labels": {
+              "HAPROXY_GROUP":"internal"
+            }
         },
         {
             "id": "orderdb",
