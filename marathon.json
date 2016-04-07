@@ -12,7 +12,7 @@
                     "portMappings": [
                         {
                             "containerPort": 9000,
-                            "hostPort": 9000,
+                            "servicePort": 10002,
                             "protocol": "tcp"
                         }
                     ],
