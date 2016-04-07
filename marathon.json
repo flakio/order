@@ -23,7 +23,7 @@
             "cpus": 0.1,
             "mem": 128,
             "env": {
-                "MYSQL_ENDPOINT": "mysql://root:my-secret-pw@orderdb-order.marathon.mesos"
+                "MYSQL_ENDPOINT": "mysql://root:my-secret-pw@marathon-ilb.marathon.mesos:10003"
             },
             "constraints": [
                 [
@@ -46,7 +46,7 @@
                     "portMappings": [
                         {
                             "containerPort": 3306,
-                            "hostPort": 3306,
+                            "servicePort": 10003,
                             "protocol": "tcp"
                         }
                     ],
@@ -58,6 +58,9 @@
             "mem": 256,
             "env": {
                 "MYSQL_ROOT_PASSWORD": "my-secret-pw"
+            },
+            "labels": {
+              "HAPROXY_GROUP":"internal"
             }
         }
     ]
