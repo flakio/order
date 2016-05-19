@@ -35,7 +35,7 @@
                 ]
             ],
             "labels": {
-              "HAPROXY_GROUP":"internal"
+              "HAPROXY_GROUP":"external"
             }
         },
         {
@@ -63,9 +63,6 @@
             "mem": 256,
             "env": {
                 "MYSQL_ROOT_PASSWORD": "my-secret-pw"
-            },
-            "labels": {
-              "HAPROXY_GROUP":"internal"
             }
         }
     ]
