@@ -13,7 +13,10 @@
                         {
                             "containerPort": 9000,
                             "servicePort": 10002,
-                            "protocol": "tcp"
+                            "protocol": "tcp",
+                            "labels": {
+                                "VIP_0": "192.168.3.1:80"
+                            }
                         }
                     ],
                     "parameters": []
@@ -23,7 +26,7 @@
             "cpus": 0.1,
             "mem": 128,
             "env": {
-                "MYSQL_ENDPOINT": "mysql://root:my-secret-pw@marathon-ilb.marathon.mesos:10003"
+                "MYSQL_ENDPOINT": "mysql://root:my-secret-pw@192.168.3.2:3306"
             },
             "constraints": [
                 [
@@ -46,8 +49,10 @@
                     "portMappings": [
                         {
                             "containerPort": 3306,
-                            "servicePort": 10003,
-                            "protocol": "tcp"
+                            "protocol": "tcp",
+                            "labels": {
+                                "VIP_0": "192.168.3.2:3306"
+                            }
                         }
                     ],
                     "parameters": []
