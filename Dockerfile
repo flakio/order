@@ -1,4 +1,4 @@
-FROM node:5.5.0-slim
+FROM node:6.2.0-slim
 
 EXPOSE 9000
 

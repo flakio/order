@@ -38,5 +38,5 @@ Sample document to post to the /create api
 
 Deploy to mesos
 ```
-curl -s -XPOST localhost:8080/v2/groups -d@marathon.json -H "Content-Type: application/json"
+curl https://raw.githubusercontent.com/flakio/order/master/marathon.json | curl -qs -XPOST localhost/marathon/v2/groups -d@- -H "Content-Type: application/json"
 ```
