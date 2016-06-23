@@ -24,6 +24,6 @@ spec:
     spec:
       containers:
       - name: orderservice
-        image: flakio/orderservice:8
+        image: flakio/orderservice:21
         ports:
         - containerPort: 80
