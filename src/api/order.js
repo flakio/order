@@ -1,12 +1,6 @@
 'use strict';
 
 var parse = require('co-body');
-var mysql = require('mysql2-bluebird')();
-var settings = require('../settings');
-var thunkify = require('thunkify');
-var fs = require('fs');
-var read = thunkify(fs.readFile);
-
 var orderData = require('../db/order-data');
 
 module.exports = {
@@ -19,7 +13,7 @@ module.exports = {
         }
         catch (err) {
             this.status = 500;
-            this.body = { error: err };
+            this.body = { error: err.message };
         }
     },
 
@@ -39,7 +33,7 @@ module.exports = {
             this.status = 200;
         } catch (err) {
             this.status = 500;
-            this.body = { error: err };
+            this.body = { error: err.message };
         }
     },
 	
@@ -47,13 +41,12 @@ module.exports = {
     getById: function* () {
 
         try {
-
             this.body = yield orderData.getById(this.params.id);
             this.status = 200;
         }
         catch (err) {
             this.status = 500;
-            this.body = { error: err };
+            this.body = { error: err.message };
         }
     },
 
@@ -68,7 +61,7 @@ module.exports = {
         }
         catch (err) {
             this.status = 500;
-            this.body = { error: err };
+            this.body = { error: err.message };
         }
     }
 }

@@ -10,7 +10,7 @@ general:
 dependencies:
   override:
     - docker info
-    - cd .. && docker build -t flakio/orderservice:$CIRCLE_BUILD_NUM .
+    - cd .. && docker build -f app.dockerfile -t flakio/orderservice:$CIRCLE_BUILD_NUM .
 
 deployment:
   hub:

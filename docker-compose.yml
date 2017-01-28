@@ -1,13 +1,29 @@
-mysql:
-  image: mysql
-  environment:
-    - MYSQL_ROOT_PASSWORD=my-secret-pw
-  net: orderservice
+version: '2'
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=my-secret-pw
+    networks:
+      flakio:
+        aliases:
+          - orderdb
+    tty: true
 
-orderservice:
-  build: .
-  ports:
-    - "9000:9000"
-  environment:
-    - MYSQL_ENDPOINT=mysql://root:my-secret-pw@orderservice_mysql_1
-  net: orderservice
+  orderservice:
+    build: .
+    dockerfile: app.dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - MYSQL_ENDPOINT=mysql://root:my-secret-pw@orderdb
+    networks:
+      flakio:
+        aliases:
+          - orderservice
+    net: flakio
+
+networks:
+  clearnet:
+    external:
+      name: flakio

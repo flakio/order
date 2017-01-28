@@ -1,13 +1,6 @@
 var database = require('../db/database');
 var uuid = require('uuid');
 
-//TEMP
-var mysql = require('mysql2-bluebird')();
-var settings = require('../settings');
-var thunkify = require('thunkify');
-var fs = require('fs');
-var read = thunkify(fs.readFile);
-
 var OrderSummary = function (id, email, status, total, orderDate, shippingAddress, lineItems) {
     this.id = id;
     this.email = email;
@@ -37,13 +30,13 @@ var OrderItem = function (productId, productName, price, quantity) {
 
 module.exports = {
     list: function* () {
-        var results = yield database.query(
+        let results = yield database.query(
             "SELECT ord.id, ord.email, ord.status, ord.total, ord.orderDate, ord.shippingAddress, ( \
             SELECT COUNT(*) FROM `OrderDetail` detail WHERE detail.orderId = ord.id \
             ) AS \"lineItems\" \
             FROM `Order` ord");
 
-        var list = results[0].map(function (model) {
+        let list = results[0].map(function (model) {
             return new OrderSummary(model.id, model.email, model.status, model.total, model.orderDate,
                 JSON.parse(model.shippingAddress), model.lineItems);
         });
@@ -58,12 +51,12 @@ module.exports = {
 
         var selects = [
             function* () {
-                var result = yield database.query('SELECT ord.email, ord.status, ord.total, ord.orderDate, ord.shippingAddress ' +
+                let result = yield database.query('SELECT ord.email, ord.status, ord.total, ord.orderDate, ord.shippingAddress ' +
                     ' from `Order` ord where ord.id = ?', id);
                 orderModel = result[0].length ? result[0][0] : null
             },
             function* () {
-                var result = yield database.query('SELECT productId, productName, price, quantity, total FROM `OrderDetail` where orderId = ?', id);
+                let result = yield database.query('SELECT productId, productName, price, quantity, total FROM `OrderDetail` where orderId = ?', id);
                 itemsModel = result[0];
             }
         ];
@@ -103,7 +96,7 @@ module.exports = {
 
         var inserts = [];
         for (var i = 0; i < data.items.length; i++) {
-            var item = data.items[i];
+            let item = data.items[i];
             inserts.push(database.query(
                 'INSERT INTO `OrderDetail`(`orderId`,`productId`,`productName`,`price`,`quantity`,`total`) VALUES (?, ?, ?, ?, ?, ?)',
                 [orderId, item.productId, item.productName, item.price, item.quantity, item.price * item.quantity]));
@@ -113,19 +106,6 @@ module.exports = {
     },
 
     install: function* () {
-        
-        // Create the Flak.io Order service database
-        mysql.configure(settings.mysqlConnectionString() + '/mysql?debug=true');
-        var results = yield mysql.query("CREATE DATABASE IF NOT EXISTS flakio");
-
-        mysql.configure(settings.mysqlConnectionString() + '/flakio?debug=true');
-
-        // Create the orders table
-        var statement = yield read('./install/order.table.sql', 'utf-8');
-        results = yield mysql.query(statement);
-        
-        // Create the orders table
-        statement = yield read('./install/orderDetails.table.sql', 'utf-8');
-        results = yield mysql.query(statement);
+        yield database.install();
     }
 }

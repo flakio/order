@@ -1,4 +1,4 @@
-FROM node:6.2.0-slim
+FROM node:7.4.0-alpine
 
 EXPOSE 9000
 

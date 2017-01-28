@@ -22,6 +22,6 @@ app.use(route.routes());
 app.use(compress());
 
 if (!module.parent) {
-	app.listen(9000);
-	console.log('listening on port 9000');
+	app.listen(80);
+	console.log('listening on port 80');
 }
