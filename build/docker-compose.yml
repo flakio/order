@@ -10,9 +10,9 @@ services:
           - orderdb
     tty: true
 
-  orderservice:
+  app:
     build: .
-    dockerfile: app.dockerfile
+    dockerfile: dev.dockerfile
     ports:
       - "80:80"
     environment:

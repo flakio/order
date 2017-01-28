@@ -1,5 +1,10 @@
-docker network create flakio 
+docker version --format '{{.Client.Version}}'
 
-docker run -d --env MYSQL_ROOT_PASSWORD=my-secret-pw --net flakio --net-alias orderdb --name orderdb mysql
+if ! docker network ls | grep -q flakio; then
+docker network create flakio
+fi
 
-docker run -it --net flakio --name orderservice -p 9000:80 --env MYSQL_ENDPOINT=mysql://root:my-secret-pw@orderdb -v `pwd`/src:/app -w /app node:6.3 bash
+docker-compose -p orderservice -f ./docker-compose.yml up -d
+
+# attach to the applicaiton instance
+docker attach flaio_app_1
